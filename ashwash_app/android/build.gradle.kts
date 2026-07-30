@@ -1,3 +1,15 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Add plugin classpaths here, for example:
+        classpath ("com.google.gms:google-services:4.5.0")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.2")
+        
+    }
+}
 allprojects {
     repositories {
         google()
