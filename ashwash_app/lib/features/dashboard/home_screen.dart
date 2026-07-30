@@ -8,6 +8,7 @@ import '../knowledge_hub/knowledge_hub_screen.dart';
 import '../courses/courses_screen.dart';
 import '../appointments/specialist_list_screen.dart';
 import '../profile/report_screen.dart';
+import '../mind_games/mind_games_hub_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -171,15 +172,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    child: Column(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _buildStatItem('5', isBn ? 'সেশন' : 'Sessions', Icons.calendar_today_rounded),
-                            _buildStatItem('1', isBn ? 'কাজ সম্পন্ন' : 'Tasks Done', Icons.check_circle_outline),
-                          ],
-                        ),
+                        _buildStatItem('5', isBn ? 'সেশন' : 'Sessions', Icons.calendar_today_rounded),
+                        _buildStatItem('1', isBn ? 'কাজ সম্পন্ন' : 'Tasks Done', Icons.check_circle_outline),
                       ],
                     ),
                   ),
@@ -188,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 24),
 
-            // Quick Actions
+            // Quick Actions Grid
             Text(isBn ? 'দ্রুত পদক্ষেপ' : 'Quick Actions', style: AppTypography.heading2(context)),
             const SizedBox(height: 12),
             GridView.count(
@@ -204,6 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   isBn ? 'জ্ঞান কেন্দ্র' : 'Knowledge Hub',
                   Icons.menu_book_rounded,
                   AppColors.primary,
+                  'assets/images/knowledge_hub_icon.jpg',
                   () => Navigator.push(context, MaterialPageRoute(builder: (_) => const KnowledgeHubScreen())),
                 ),
                 _buildQuickActionCard(
@@ -211,13 +209,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   isBn ? 'মাইন্ড গেমস' : 'Mind Games',
                   Icons.sports_esports_rounded,
                   Colors.indigo,
-                  () {},
+                  'assets/images/mind_games_icon.jpg',
+                  () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MindGamesHubScreen())),
                 ),
                 _buildQuickActionCard(
                   context,
                   isBn ? 'কোর্সসমূহ' : 'Browse Courses',
                   Icons.school_rounded,
                   AppColors.secondary,
+                  null,
                   () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CoursesScreen())),
                 ),
                 _buildQuickActionCard(
@@ -225,45 +225,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   isBn ? 'সেশন বুক করুন' : 'Book Session',
                   Icons.event_available_rounded,
                   Colors.pink,
+                  'assets/images/specialist_consult_icon.jpg',
                   () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SpecialistListScreen())),
                 ),
               ],
-            ),
-            const SizedBox(height: 20),
-
-            // Emergency Banner
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: AppColors.danger,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(color: Colors.white24, shape: BoxShape.circle),
-                    child: const Icon(Icons.error_outline_rounded, color: Colors.white, size: 28),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          isBn ? 'জরুরী ইউনিট' : 'Emergency Unit',
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          isBn ? 'তাত্ক্ষণিক বিশেষজ্ঞ সহায়তা' : 'Instant specialist support',
-                          style: const TextStyle(color: Colors.white, fontSize: 13),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
             const SizedBox(height: 24),
 
@@ -279,9 +244,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const SizedBox(height: 8),
-            _buildCourseProgressCard('New Mother Wellness Program', '2/5 lessons', 0.4, '40%'),
+            _buildCourseProgressCard(context, 'New Mother Wellness Program', '2/5 lessons', 0.4, '40%'),
             const SizedBox(height: 12),
-            _buildCourseProgressCard('Postpartum Mental Health', '1/2 lessons', 0.5, '50%'),
+            _buildCourseProgressCard(context, 'Postpartum Mental Health', '1/2 lessons', 0.5, '50%'),
           ],
         ),
       ),
@@ -299,31 +264,53 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildQuickActionCard(BuildContext context, String title, IconData icon, Color color, VoidCallback onTap) {
+  Widget _buildQuickActionCard(
+    BuildContext context,
+    String title,
+    IconData fallbackIcon,
+    Color color,
+    String? imagePath,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: color.withOpacity(0.12),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: color.withOpacity(0.3)),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(height: 8),
-            Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: color, fontSize: 14)),
+            if (imagePath != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  imagePath,
+                  width: 42,
+                  height: 42,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Icon(fallbackIcon, color: color, size: 28),
+                ),
+              )
+            else
+              Icon(fallbackIcon, color: color, size: 28),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold, color: color, fontSize: 13),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCourseProgressCard(String title, String subtitle, double progress, String pctText) {
+  Widget _buildCourseProgressCard(BuildContext context, String title, String subtitle, double progress, String pctText) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

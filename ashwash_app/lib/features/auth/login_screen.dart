@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_typography.dart';
 import '../../core/localization/app_language_provider.dart';
+import '../../core/theme/app_theme.dart';
 import '../../core/services/auth_service.dart';
 import 'category_selection_screen.dart';
 import 'register_screen.dart';
@@ -36,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final langProvider = Provider.of<AppLanguageProvider>(context);
+    final themeProvider = Provider.of<AppThemeProvider>(context);
     final isBn = langProvider.isBangla;
 
     return Scaffold(
@@ -53,8 +55,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () => langProvider.toggleLanguage(),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.dark_mode_outlined, color: AppColors.primary),
-                    onPressed: () {},
+                    icon: Icon(
+                      themeProvider.isDarkMode ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+                      color: AppColors.primary,
+                    ),
+                    onPressed: () {
+                      themeProvider.toggleTheme(!themeProvider.isDarkMode);
+                    },
                   ),
                 ],
               ),
@@ -146,7 +153,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                       ),
                       onPressed: () {},
-                      icon: const Icon(Icons.g_mobiledata_rounded, color: Colors.red, size: 24),
+                      icon: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.asset(
+                          'assets/images/google_g_logo.jpg',
+                          width: 22,
+                          height: 22,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                       label: const Text('Google', style: TextStyle(color: Colors.black87)),
                     ),
                   ),

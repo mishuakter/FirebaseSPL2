@@ -33,7 +33,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
       ),
       body: Column(
         children: [
-          // Filter Tags Bar
           Container(
             height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -61,8 +60,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
               },
             ),
           ),
-
-          // Posts Feed
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),

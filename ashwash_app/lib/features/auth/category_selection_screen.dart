@@ -128,7 +128,6 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Banner Card
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -145,7 +144,7 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
                 const SizedBox(height: 8),
                 Text(
                   isBn ? cat.descriptionBn : cat.descriptionEn,
-                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                  style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 14),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
@@ -169,8 +168,6 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
             ),
           ),
           const SizedBox(height: 24),
-
-          // Available Courses Section
           Text(isBn ? 'উপলব্ধ কোর্সসমূহ' : 'Available Courses', style: AppTypography.heading2(context)),
           const SizedBox(height: 12),
           Container(
@@ -214,8 +211,6 @@ class _CategorySelectionScreenState extends State<CategorySelectionScreen> {
             ),
           ),
           const SizedBox(height: 24),
-
-          // Our Specialists
           Text(isBn ? 'আমাদের বিশেষজ্ঞগণ' : 'Our Specialists', style: AppTypography.heading2(context)),
           const SizedBox(height: 12),
           Container(
