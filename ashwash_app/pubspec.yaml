@@ -11,6 +11,10 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  cupertino_icons: ^1.0.2
+  firebase_core: ^3.10.1
+  firebase_auth: ^5.3.4
+  cloud_firestore: ^5.5.1  # <--- Add this line here!
   provider: ^6.1.2
   google_fonts: ^6.1.0
   shared_preferences: ^2.2.2

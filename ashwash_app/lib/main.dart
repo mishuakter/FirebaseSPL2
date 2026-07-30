@@ -4,9 +4,11 @@ import 'core/theme/app_theme.dart';
 import 'core/localization/app_language_provider.dart';
 import 'core/services/auth_service.dart';
 import 'features/onboarding/onboarding_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const AshwashApp());
 }
 
